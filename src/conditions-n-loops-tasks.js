@@ -466,33 +466,26 @@ function shuffleChar(string, iterations) {
   const cache = {};
   let cycle = 0;
 
-  const slice = (str, start, end) => {
-    let newString = '';
-    const newEnd = end || str.length;
-
-    for (let i = start; i < newEnd; i += 1) {
-      newString += str[i];
-    }
-
-    return newString;
-  };
-
-  const shuffle = () => {
+  const shuffle = (str) => {
     let charToEnd = '';
     const lastOdd =
-      newStr.length - (1 % 2) === 0 ? newStr.length - 2 : newStr.length - 1;
-    for (let i = lastOdd; i > 0; i -= 1) {
-      if (i % 2 !== 0) {
-        charToEnd = newStr[i] + charToEnd;
-        const [start, end] = [slice(newStr, 0, i), slice(newStr, i + 1)];
-        newStr = `${start}${end}`;
-      }
+      str.length - (1 % 2) === 0 ? str.length - 2 : str.length - 1;
+
+    for (let i = lastOdd; i > 0; i -= 2) {
+      charToEnd = str[i] + charToEnd;
     }
+
+    newStr = '';
+
+    for (let i = 0; i < str.length; i += 2) {
+      newStr += str[i];
+    }
+
     newStr += charToEnd;
   };
 
   while (counter < iterations) {
-    shuffle();
+    shuffle(newStr);
     cache[counter + 1] = newStr;
     if (newStr === string) {
       cycle = counter + 1;
